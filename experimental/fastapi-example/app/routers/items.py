@@ -25,7 +25,7 @@ async def read_item(item_id: int, db: Session = Depends(deps.get_db)):
     tags=["custom"],
     responses={403: {"description": "Operation forbidden"}},
 )
-async def update_item(item_id: int):
+async def update_item(item_id: int, ):
     # if item_id != "foo":
     #     raise HTTPException(status_code=403, detail="You can only update the item: foo")
     return {"item_id": item_id, "name": "The Fighters"}
