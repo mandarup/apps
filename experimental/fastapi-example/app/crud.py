@@ -31,12 +31,17 @@ def get_item(db: Session, item_id: int):
     return db.query(models.Item).filter(models.Item.id == item_id).first()
 
 
-
 def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     db_item = models.Item(**item.dict(), owner_id=user_id)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
+    return db_item
+
+def update_user_item(db: Session, item: schemas.ItemUpdate, user_id: int, item_id: int):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).update(item.dict())
+    db.commit()
+    # db.refresh(db_item)
     return db_item
 
 

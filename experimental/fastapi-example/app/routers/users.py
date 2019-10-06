@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from typing import List
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from fastapi import Depends, FastAPI, HTTPException, Header
 
 from .. import crud, models, schemas
 from .. import dependencies as deps
@@ -32,8 +33,6 @@ async def read_user(user_id: int, db: Session = Depends(deps.get_db)):
     return db_user
 
 
-
-
 @router.post("/users/{user_id}/items/", response_model=schemas.Item)
 async def create_item_for_user(
     user_id: int, item: schemas.ItemCreate, db: Session = Depends(deps.get_db)
@@ -47,3 +46,12 @@ async def get_items_for_user(
         skip: int = 0, limit: int = 5,
     ):
     return crud.get_user_items(db=db, user_id=user_id,skip=skip, limit=limit)
+
+@router.put(
+    "/users/{user_id}/items/{item_id}",
+    response_model=schemas.Item
+)
+async def update_item_for_user(
+        user_id: int, item_id: int, item: schemas.ItemUpdate,
+        db: Session = Depends(deps.get_db)):
+    return crud.update_user_item(db=db, item=item, user_id=user_id, item_id=item_id)
