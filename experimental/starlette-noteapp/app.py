@@ -3,12 +3,20 @@ import sqlalchemy
 from starlette.applications import Starlette
 from starlette.config import Config
 from starlette.responses import JSONResponse
+from starlette.datastructures import CommaSeparatedStrings, Secret
+import uvicorn
+
+from fastapi import FastAPI
+
 
 
 # Configuration from environment variables or '.env' file.
 config = Config('.env')
 DATABASE_URL = config('DATABASE_URL')
 
+DEBUG = config('DEBUG', cast=bool, default=False)
+SECRET_KEY = config('SECRET_KEY', cast=Secret)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=CommaSeparatedStrings)
 
 # Database table definitions.
 metadata = sqlalchemy.MetaData()
@@ -24,7 +32,7 @@ notes = sqlalchemy.Table(
 # Main application code.
 database = databases.Database(DATABASE_URL)
 app = Starlette()
-
+# app = FastAPI()
 
 @app.on_event("startup")
 async def startup():
@@ -71,3 +79,7 @@ async def populate_note(request):
     query = notes.insert().values(text="you won't see me", completed=True)
     await database.execute(query)
     raise RuntimeError()
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host='0.0.0.0', port=8000)
