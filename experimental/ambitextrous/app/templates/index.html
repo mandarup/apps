@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html>
   <head>
     <title>Create HTML5 Canvas JavaScript Drawing App Example</title>
@@ -10,4 +10,21 @@
     	 drawingApp.init();
 	</script>
   </body>
-</html>
+</html> -->
+
+
+<!-- <!DOCTYPE html> -->
+{% extends "base.html" %}
+
+{% block content %}
+  <body>
+      <h1>Black-Chat</h1>
+      <form method="POST">
+          <!-- {{ form.hidden_tag() }} -->
+          <!-- {{ form.csrf_token }} -->
+          <!-- {{ form.name.label }}: {{ form.name() }} {% for error in form.name.errors %}{{ error }}{% endfor %}<br>
+          {{ form.room.label }}: {{ form.room() }} {% for error in form.room.errors %}{{ error }}{% endfor %}<br> -->
+          <!-- {{ form.submit() }} -->
+      </form>
+  </body>
+{% endblock %}

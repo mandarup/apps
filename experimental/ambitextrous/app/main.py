@@ -50,7 +50,7 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 # app.mount("/templates", StaticFiles(directory="app/templates"), name="templates")
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="app/templates/")
 
 
 @app.get("/items/{id}")
@@ -59,12 +59,16 @@ async def read_item(request: Request, id: str):
 
 @app.get("/drawing")
 async def drawing(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("blog/index.html", {"request": request})
 
 @app.post("/drawing")
 async def drawing(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+
+@app.get("/test")
+async def test(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.on_event("startup")
